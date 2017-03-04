@@ -1,6 +1,6 @@
 "use strict";
-var ts = require("typescript");
-var _ = require("lodash");
+var ts = require('typescript');
+var _ = require('lodash');
 // Extract information about the type/error assertions in a source file.
 // The scanner should be positioned at the start of the file.
 function extractAssertions(scanner, source) {
@@ -8,11 +8,14 @@ function extractAssertions(scanner, source) {
     var isFirstTokenOnLine = true;
     var lastLine = -1;
     while (scanner.scan() !== ts.SyntaxKind.EndOfFileToken) {
+        var token = scanner.getToken();
+        if (token === ts.SyntaxKind.WhitespaceTrivia)
+            continue; // ignore leading whitespace.
         var pos = scanner.getTokenPos();
         var line = source.getLineAndCharacterOfPosition(pos).line;
         isFirstTokenOnLine = (line !== lastLine);
         lastLine = line;
-        if (scanner.getToken() === ts.SyntaxKind.SingleLineCommentTrivia) {
+        if (token === ts.SyntaxKind.SingleLineCommentTrivia) {
             var commentText = scanner.getTokenText();
             var m = commentText.match(/^\/\/ \$Expect(Type|Error) (.*)/);
             if (!m)

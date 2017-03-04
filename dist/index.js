@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 "use strict";
-var ts = require("typescript");
+var ts = require('typescript');
 // import * as _ from 'lodash';
-var checker_1 = require("./checker");
+var checker_1 = require('./checker');
 var _a = process.argv, tsFile = _a[2];
 // read options from a tsconfig.json file.
 var options = ts.readConfigFile('tsconfig.json', ts.sys.readFile).config['compilerOptions'] || {};
